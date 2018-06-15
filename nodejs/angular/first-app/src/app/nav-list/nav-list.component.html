@@ -1,7 +1,12 @@
 <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
   <li class="nav-item" data-toggle="tooltip" data-placement="right" *ngFor="let navItem of generateNavMenu()" title="navItem.text">
     <app-nav-item [navItem]="navItem"></app-nav-item>
+    <app-nav-list *ngIf="navItem.sub && navItem.sub.length > 0" [navList]="navItem.sub"></app-nav-list>
   </li>
+</ul>
+
+
+<!-- <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
   <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Components">
     <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
       <i class="fa fa-fw fa-wrench"></i>
@@ -67,4 +72,4 @@
       </li>
     </ul>
   </li>
-</ul>
+</ul> -->
