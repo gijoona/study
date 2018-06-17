@@ -1,0 +1,90 @@
+
+/*
+// flat-Data format
+{ id: 'M01',    link: '',       text: 'Dashboard',            icon: 'fa fa-fw fa-dashboard',   parent: '',      isParent: false},
+{ id: 'M02',    link: '',       text: 'Charts',               icon: 'fa fa-fw fa-area-chart',  parent: '',      isParent: false},
+{ id: 'M03',    link: '',       text: 'Tables',               icon: 'fa fa-fw fa-table',       parent: '',      isParent: false},
+{ id: 'M04',    link: '',       text: 'Components',           icon: 'fa fa-fw fa-wrench',      parent: '',      isParent: true},
+{ id: 'M05',    link: '',       text: 'Example Pages',        icon: 'fa fa-fw fa-file',        parent: '',      isParent: true},
+{ id: 'M06',    link: '',       text: 'Menu Levels',          icon: 'fa fa-fw fa-sitemap',     parent: '',      isParent: true},
+{ id: 'M07',    link: '',       text: 'Link',                 icon: 'fa fa-fw fa-link',        parent: '',      isParent: false},
+{ id: 'M08',    link: '',       text: 'Messages',             icon: 'fa fa-fw fa-envelope',    parent: '',      isParent: false},
+{ id: 'M09',    link: '',       text: 'Alerts',               icon: 'fa fa-fw fa-bell',        parent: '',      isParent: false},
+{ id: 'M10',    link: '',       text: 'Navbar',               icon: '',                        parent: 'M04',   isParent: false},
+{ id: 'M11',    link: '',       text: 'Cards',                icon: '',                        parent: 'M04',   isParent: false},
+{ id: 'M12',    link: '',       text: 'Login Page',           icon: '',                        parent: 'M05',   isParent: false},
+{ id: 'M13',    link: '',       text: 'Registration Page',    icon: '',                        parent: 'M05',   isParent: false},
+{ id: 'M14',    link: '',       text: 'Forgot Password Page', icon: '',                        parent: 'M05',   isParent: false},
+{ id: 'M15',    link: '',       text: 'Blank Page',           icon: '',                        parent: 'M05',   isParent: false},
+{ id: 'M16',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+{ id: 'M17',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+{ id: 'M18',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+{ id: 'M19',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: true},
+{ id: 'M20',    link: '',       text: 'Thrid Level Item',     icon: '',                        parent: 'M19',   isParent: false},
+{ id: 'M21',    link: '',       text: 'Thrid Level Item',     icon: '',                        parent: 'M19',   isParent: false}
+
+// 메뉴리스트에서 isParent, parent를 체크하여 navigation을 생성
+function generateNavItem(navList: Array<NavItem>, navItem: NavItem): NavItem {
+  // sub메뉴를 담는 변수
+  var sub: Array<NavItem> = new Array<NavItem>();
+  // 부모메뉴일 경우(sub메뉴가 존재하는 메뉴일 경우)
+  if(navItem.isParent){
+    // 현재 메뉴의 메뉴ID를 get
+    var id: string = navItem.id;
+    // 전체 메뉴리스트를 검색해서 parent의 값이 ID와 같은 데이터를 sub에 담아 sub Navigation을 생성
+    // 만일 sub메뉴의 isParent가 true(하위메뉴가 있을 경우)일 경우 재귀호출을 수행한다.
+    for(var idx in navList){
+      var subNav: NavItem = navList[idx];
+      if(subNav.parent == id){
+        if(subNav.isParent){
+          subNav = generateNavItem(navList, subNav);
+        }
+        sub.push(subNav);
+      }
+    }
+    navItem.sub = this.sub;
+  }
+  return navItem;
+}
+
+var navList: Array<NavItem> = new Array<NavItem>();
+for(var idx in flatData){
+  var navItem: NavItem = generateNavItem(flatData, idx);
+  navList.push(navItem);
+}
+
+convert-Data format
+{ id: 'M01',    link: '',       text: 'Dashboard',            icon: 'fa fa-fw fa-dashboard',   parent: '',      isParent: false},
+{ id: 'M02',    link: '',       text: 'Charts',               icon: 'fa fa-fw fa-area-chart',  parent: '',      isParent: false},
+{ id: 'M03',    link: '',       text: 'Tables',               icon: 'fa fa-fw fa-table',       parent: '',      isParent: false},
+{ id: 'M04',    link: '',       text: 'Components',           icon: 'fa fa-fw fa-wrench',      parent: '',      isParent: true,
+  sub: [
+    { id: 'M10',    link: '',       text: 'Navbar',               icon: '',                        parent: 'M04',   isParent: false},
+    { id: 'M11',    link: '',       text: 'Cards',                icon: '',                        parent: 'M04',   isParent: false}
+  ]
+},
+{ id: 'M05',    link: '',       text: 'Example Pages',        icon: 'fa fa-fw fa-file',        parent: '',      isParent: true,
+  sub: [
+    { id: 'M12',    link: '',       text: 'Login Page',           icon: '',                        parent: 'M05',   isParent: false},
+    { id: 'M13',    link: '',       text: 'Registration Page',    icon: '',                        parent: 'M05',   isParent: false},
+    { id: 'M14',    link: '',       text: 'Forgot Password Page', icon: '',                        parent: 'M05',   isParent: false},
+    { id: 'M15',    link: '',       text: 'Blank Page',           icon: '',                        parent: 'M05',   isParent: false}
+  ]
+},
+{ id: 'M06',    link: '',       text: 'Menu Levels',          icon: 'fa fa-fw fa-sitemap',     parent: '',      isParent: true,
+  sub: [
+    { id: 'M16',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+    { id: 'M17',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+    { id: 'M18',    link: '',       text: 'Second Level Item',    icon: '',                        parent: 'M06',   isParent: false},
+    { id: 'M19',    link: '',       text: 'Thrid Level',          icon: '',                        parent: 'M06',   isParent: true
+      sub: [
+        { id: 'M20',    link: '',       text: 'Thrid Level Item',     icon: '',                        parent: 'M19',   isParent: false},
+        { id: 'M21',    link: '',       text: 'Thrid Level Item',     icon: '',                        parent: 'M19',   isParent: false}
+      ]
+    }
+  ]
+},
+{ id: 'M07',    link: '',       text: 'Link',                 icon: 'fa fa-fw fa-link',        parent: '',      isParent: false},
+{ id: 'M08',    link: '',       text: 'Messages',             icon: 'fa fa-fw fa-envelope',    parent: '',      isParent: false},
+{ id: 'M09',    link: '',       text: 'Alerts',               icon: 'fa fa-fw fa-bell',        parent: '',      isParent: false}
+*/

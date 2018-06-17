@@ -41,10 +41,10 @@ export class NavListComponent {
             subNav = this.generateNavItem(pNavList, subNav);
           }
           sub.push(subNav);
-          delete pNavList[idx];
+          // delete pNavList[idx];
         }
       }
-      pNavItem.sub = sub;
+      // pNavItem.sub = sub;
     }
     this.navList = pNavList;
     return pNavItem;
