@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div id="example-1">
+      <button v-on:click="counter += 1">Add 1</button>
+      <p>위 버튼을 클릭한 회수는 {{ counter }} 번 입니다.</p>
+    </div>
+
+    <div id="example-2"><button v-on:click="greet">Greet</button></div>
+
+    <div id="example-3">
+      <button @click="say('hi')">Say Hi</button>
+      <button @click="say('what')">say What</button>
+    </div>
+
+    <div id="example-4">
+      <button @click="warn('test message', $event)">Submit</button>
+    </div>
+
+    <!-- 클릭 이벤트 전파가 중단됩니다 -->
+    <a v-on:click.stop="doThis"></a>
+
+    <!-- 제출 이벤트가 페이지를 다시 로드 하지 않습니다. -->
+    <form v-on:submit.prevent="onSubmit"></form>
+
+    <!-- 수식어는 체이닝 가능합니다 -->
+    <a v-on:click.stop.prevent="doThis"></a>
+
+    <!-- 단순히 수식어만 사용할 수 있습니다. -->
+    <form v-on:submit.prevent></form>
+
+    <!-- 이벤트 리스너르르 추가할 때 캡쳐모드를 사용합니다. -->
+    <!-- 즉, 내부 엘리먼트를 대삭으로 하는 이벤트가 해당 엘리먼트에서 처리되 전에 여기서 처리합니다. -->
+    <div v-on:click.stop="doThis"></div>
+
+    <!-- event.target이 엘리먼트 자체인 경우에만 트리거를 처리합니다. -->
+    <!-- 자식 엘리먼트에서는 안됩니다. -->
+    <div v-on:click.self="doThis">...</div>
+
+    <!-- 클릭 이벤트는 최대 한번만 트리거 -->
+    <a href="" v-on:click.once="doThis"></a>
+
+    <!-- 스크롤의 기본 이벤트를 취소할 수 없습니다 -->
+    <!-- .passive 수식어는 모바일 환경에서 성능항샹에 도움이 됩니다. -->
+    <div v-on:scroll.passive="onScroll">...</div>
+
+    <!-- keyCode가 13일 떄만 vm.submit()을 호출합니다. -->
+    <input type="text" v-on:keyup.13="submit">
+    <input type="text" v-on:keyup.enter="submit">
+    <input type="text" @keyup.enter="submit">
+    <!-- 키 수식어 별칭 목록
+        .enter
+        .tab
+        .delete (“Delete” 와 “Backspace” 키 모두를 캡처합니다)
+        .esc
+        .space
+        .up
+        .down
+        .left
+        .right
+
+        // config.keyCodes 객체를 통해 사용자 지정 키 수식어 별칭을 지정할 수 있습니다.
+        // v-on:keyup.f1을 사용할 수 있습니다.
+        Vue.config.keyCodes.f1 = 112
+    -->
+
+    <!-- KeyboardEvent.key를 통해 노출된 유효 키 이름을 수식어로 직접 사용할 수 있습니다. -->
+    <!-- 핸들러는 $event.key === 'PageDown'만 호출됩니다. -->
+    <input type="text" @keyup.page-doown="onPageDown">
+
+    <!--  시스템 수식어 키 목록
+        .ctrl
+        .alt
+        .shift
+        .meta
+    -->
+    <!-- Alt + C -->
+    <input type="text" @keyup.alt.67="clear">
+
+    <!-- Ctrl + click -->
+    <div @click.ctrl="doSomething">Do something</div>
+
+    <!-- Alt 또는 Shift와 함께 눌린 경우에도 실행됩니다. -->
+    <button @click.ctrl="onClick"></button>
+
+    <!-- Ctrl 키만 눌려있을 때만 실행됩니다. -->
+    <button @click.ctrl.exact="onCtrlClick"></button>
+
+    <!-- 아래 코드는 시스템 키가 눌리지 않은 상태인 경우에만 작동합니다. -->
+    <button @click.exact="onClick"></button>
+
+    <script type="text/javascript">
+      var exmaple1 = new Vue({
+        el: '#example-1',
+        data: {
+          counter: 0
+        }
+      });
+
+      var example2 = new Vue({
+        el: '#example-2',
+        data: {
+          name: 'Vue.js'
+        },
+        methods: {
+          greet: function(event){
+            alert('Hello ' + this.name + '!');
+            if(event){
+              alert(event.target.tagName);
+            }
+          }
+        }
+      });
+
+      var example3 = new Vue({
+        el: '#example-3',
+        methods: {
+          say: function(name) {
+            alert('Hello ' + name + '!');
+          }
+        }
+      });
+
+      var example4 = new Vue({
+        el: '#example-4',
+        methods: {
+          warn: function(message, event) {
+            if(event) event.preventDefault();
+            alert(message);
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

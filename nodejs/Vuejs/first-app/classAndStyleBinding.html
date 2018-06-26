@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div class="static" v-bind:class="{ active: isActive, 'text-danger': hasError }"></div>
+
+    <div id="app2" v-bind:class="classObject"></div>
+
+    <div id="app3" v-bind:class="[{ active: isActive }, errorClass]"></div>
+
+    <div id="app4" v-bind:style="styleObject">TEST</div>
+
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '.static',
+        data: {
+          isActive: true,
+          hasError: false
+        }
+      });
+
+      var app2 = new Vue({
+        el: '#app2',
+        data: {
+          isActive: true,
+          error: null
+        },
+        computed: {
+          classObject: function(){
+            return {
+              active: this.isActive && !this.error,
+              'text-danger': this.error && this.error.type === 'fatal'
+            };
+          }
+        }
+      });
+
+      var app3 = new Vue({
+        el: '#app3',
+        data: {
+          isActive : true,
+          activeClass: 'active',
+          errorClass: 'text-danger'
+        }
+      });
+
+      var app4 = new Vue({
+        el: '#app4',
+        data: {
+          styleObject: {
+            color: 'red',
+            fontSize: '13px'
+          },
+          activeColor: 'red',
+          fontSize: 30
+        }
+      })
+    </script>
+  </body>
+</html>

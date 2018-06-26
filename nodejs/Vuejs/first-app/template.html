@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <span v-once>다시는 변경하지 않습니다: {{ msg }}</span>
+      <p>{{ text }}</p>
+    </div>
+
+    <div id="app2">
+      <p>Using mustaches: {{ rawHtml }}</p>
+      <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+    </div>
+
+    <div id="app3">
+      <button v-bind:disabled="isButtonDisabled">button</button>
+    </div>
+
+    <!-- v-bind 약어 -->
+    <div>
+      <a v-bind:href="url"></a>
+      <a :href="url"></a>
+    </div>
+
+    <!-- v-on 약어 -->
+    <div>
+      <a v-on:click="doSomething"></a>
+      <a @click="doSomething"></a>
+    </div>
+
+    <script type="text/javascript">
+      var app = new Vue({
+        el: '#app',
+        data: {
+          msg: 'once 테스트',
+          text: '변경되는 text'
+        }
+      });
+
+      var app2 = new Vue({
+        el: '#app2',
+        data: {
+          rawHtml: `<span style="color:red">This should be red.</span>`
+        }
+      });
+
+      var app3 = new Vue({
+        el: '#app3',
+        data: {
+          isButtonDisabled: false
+        }
+      });
+    </script>
+  </body>
+</html>

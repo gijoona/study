@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <!-- 전역 컴포넌트 -->
+    <div id="example">
+      <my-component></my-component>
+    </div>
+    <script type="text/javascript">
+      // 컴포넌트 등록
+      Vue.component('my-component', {
+        template: '<div>사용자 정의 컴포넌트 입니다!</div>'
+      });
+
+      // 루트 인스턴스 생성
+      new Vue({
+        el: '#example'
+      })
+    </script>
+
+    <!-- 지역 컴포넌트 -->
+    <div id="example-2">
+      <my-child></my-child>
+    </div>
+    <script type="text/javascript">
+      var Child = {
+        template: '<div>사용자 정의 지역 컴포넌트 입니다!</div>'
+      }
+
+      new Vue({
+        el: '#example-2',
+        components: {
+          'my-child': Child
+        }
+      })
+
+    </script>
+
+    <div id="example-3">
+      <child message="안녕하세요!"></child>
+    </div>
+    <script type="text/javascript">
+      Vue.component('child', {
+        props: ['message'],
+        template: '<span>{{ message }}</span>'
+      })
+
+      new Vue({
+        el: '#example-3',
+        data: {
+          message: ''
+        }
+      })
+    </script>
+
+    <div id="example-4">
+      <input type="text" v-model="parentMsg">
+      <br>
+      <subnode v-bind:my-message="parentMsg"></subnode>
+    </div>
+    <script type="text/javascript">
+      // javascript에서는 camelCased를 사용해야함
+      // html에서는 kebab-case를 사용해야함
+      Vue.component('subnode', {
+        props: ['myMessage'],
+        template: '<span>{{ myMessage }}</span>'
+      })
+
+      new Vue({
+        el: '#example-4',
+        data: {
+          parentMsg: ''
+        }
+      })
+    </script>
+
+    <div id="example-5">
+      <todo-item-1 v-bind="todo"></todo-item-1>
+    </div>
+    <script type="text/javascript">
+      Vue.component('todo-item-1', {
+        props: ['text', 'isComplete'],
+        template: '<div><span>{{ text }}</span>, <span>{{ isComplete }}</span></div>'
+      })
+
+      new Vue({
+        el: '#example-5',
+        data: {
+          todo: {
+            text: '테스트',
+            isComplete: false
+          }
+        }
+      })
+    </script>
+
+    <div id="example-valid">
+      <example></example>
+    </div>
+    <script type="text/javascript">
+      /* Prop 검증
+        String
+        Number
+        Boolean
+        Function
+        Object
+        Array
+        Symbol
+      */
+      Vue.component('example', {
+        props: {
+          // 기본 타입 확인('null'은 어떤 타입이든 가능하다는 뜻입니다.)
+          propA: Number,
+          // 여러개의 가능한 타입
+          propB: [String, Number],
+          // 문자열이며 꼭 필요한 타입
+          propC: {
+            type: String,
+            required: true
+          },
+          // 숫자이며 기본 값을 가집니다.
+          propD: {
+            type: Number,
+            default: 100
+          },
+          // 객체/배열의 기본값은 팩토리 함수에서 반환 되어야 합니다.
+          propE: {
+            type: Object,
+            default: function(){
+              return { message: 'hello' }
+            }
+          },
+          // 사용자 정의 유효성 검사 가능
+          propF: {
+            validator: function(value){
+              return value > 10
+            }
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

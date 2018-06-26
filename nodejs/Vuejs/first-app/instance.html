@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    <div id="app">
+      <p>{{ foo }}</p>
+      <!-- obj.foo는 더이상 변하지 않습니다!! -->
+      <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
+
+    <div id="example"></div>
+
+    <script type="text/javascript">
+      // 데이터 객체
+      var data = {
+        a: 1,
+        newTodoText: '',
+        visitCount: 0,
+        hideCompletedTodos: false,
+        todos: [],
+        error: null
+      };
+
+      // Vue인스턴스에 데이터 객체를 추가합니다.
+      var vm = new Vue({
+        data: data
+      });
+
+      // 같은 객체를 참조합니다.
+      console.log(vm.a === data.a); // => true
+
+      // 속성 설정은 원본ㄷ 데이터에도 영향을 미칩니다.
+      vm.a = 2;
+      console.log(data.a) // => 2
+
+      // ... 당연하게도
+      data.a = 3;
+      console.log(vm.a) // => 3
+
+      var obj = {
+        foo: 'bar'
+      }
+      // 기존 속성이 변경되는 것을 막아 반응성 시스템이 추적할수 없게 함
+      // error message : Uncaught TypeError: Cannot assign to read only property 'foo' of object '#<Object>'
+      Object.freeze(obj);
+
+      new Vue({
+        el: '#app',
+        data: obj
+      });
+
+      // Vue 인스턴스는 데이터 속성 이외에도 유용한 인스턴스 속성 및 메소드를 제공합니다.
+      // 다른 사용자 정의 속성과 구분하기 위해 $ 접두어를 붙였습니다.
+      var data = { a: 1 }
+      var vm = new Vue({
+        el: '#example',
+        data: data
+      });
+
+      console.log(vm.$data === data);
+      console.log(vm.$el === document.getElementById('example'));
+
+      // $watch는 인스턴스 메소드 입니다.
+      vm.$watch('a', function(newVal, oldVal){
+        // vm.a가 변경되면 호출된다.
+      });
+
+      new Vue({
+        data: { a: 1 },
+        created: function(){
+          // this는 vm 인스턴스를 가리킵니다.
+          console.log('a is: ', this.a);
+        }
+      });
+    </script>
+  </body>
+</html>
