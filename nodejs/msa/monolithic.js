@@ -2,16 +2,6 @@ const http = require('http');
 const url = require('url');
 const querystring = require('querystring');
 
-// database
-const OrientDB = require("orientjs");
-const server = OrientDB({
-  host: 'localhost',
-  port: 2424,
-  username: 'root',
-  password: 1213
-});
-var db = server.use('monolithic')
-
 // router
 const members = require('./monolithic_router/members.js');
 const goods = require('./monolithic_router/goods.js');
