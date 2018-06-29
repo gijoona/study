@@ -52,35 +52,100 @@ Vue.component('todo-input-new', {
   }
 });
 
+/* components */
+// todo-item components
+Vue.component('todo-item', {
+  props: ['todo'],
+  template: `
+    <div class="view">
+      <input class="toggle" type="checkbox" v-model="todoItem.completed">
+      <label @dblclick="editTodo(todoItem)">{{ todoItem.title }}</label>
+      <button class="destroy" @click="removeTodo(todoItem)"></button>
+    </div>
+  `,
+  data: function(){
+    return { todoItem: this.todo }
+  },
+  methods: {
+    editTodo: function(todoItem){
+      this.$emit('edit', todoItem);
+    },
+    removeTodo: function(todoItem){
+      this.$emit('remove', todoItem);
+    }
+  }
+});
+
+// todo-input-edit components
+Vue.component('todo-input-edit', {
+  props: ['todo', 'editedTodo'],
+  template: `
+    <input class="edit" type="text"
+      v-model="todoItem.title"
+      v-todo-focus="isFocus"
+      @blur="doneEdit(todoItem)"
+      @keyup.enter="doneEdit(todoItem)"
+      @keyup.esc="cancelEdit(todoItem)">`,
+  data: function(){
+    return { todoItem: this.todo }
+  },
+  methods: {
+    doneEdit: function(todoItem){
+      this.$emit('done', todoItem);
+    },
+    cancelEdit: function(todoItem){
+      this.$emit('cancel', todoItem);
+    }
+  },
+  computed: {
+    isFocus: function(){
+      return this.todo == this.editedTodo;
+    }
+  },
+  // a custom directive to wait for the DOM to be updated
+  // before focusing on the input field.
+  // http://vuejs.org/guide/custom-directive.html
+  directives: {
+    'todo-focus': function (el, binding) {
+      if (binding.value) {
+        el.focus()
+      }
+    }
+  }
+});
+
 // todo-list components
 Vue.component('todo-list', {
+  props: ['todos', 'editedTodo'],
   template: `
     <ul class="todo-list">
-      <li v-for="todo in todos"
+      <li v-for="todo in todoList"
         class="todo"
         :key="todo.id"
         :class="{ completed: todo.completed, editing: todo == editedTodo }">
-        <div class="view">
-          <input class="toggle" type="checkbox" v-model="todo.completed">
-          <label @dblclick="editTodo(todo)">{{ todo.title }}</label>
-          <button class="destroy" @click="removeTodo(todo)"></button>
-        </div>
-        <input class="edit" type="text"
-          v-model="todo.title"
-          v-todo-focus="todo == editedTodo"
-          @blur="doneEdit(todo)"
-          @keyup.enter="doneEdit(todo)"
-          @keyup.esc="cancelEdit(todo)">
+        <todo-item :todo="todo" @edit="editTodo(todo)" @remove="removeTodo(todo)"></todo-item>
+        <todo-input-edit :todo="todo" :edited-todo="editedTodo" @done="doneEdit(todo)"  @cancel="cancelEdit(todo)"></todo-input-edit>
       </li>
-    </ul>
-  `,
-  props: ['filteredTodos'],
+    </ul>`,
   data: function(){
-    return {
-      todos: this.filteredTodos
+    return { todoList: this.todos }
+  },
+  methods: {
+    editTodo: function(todo){
+      this.$emit('todo-edit', todo);
+    },
+    removeTodo: function(todo){
+      this.$emit('todo-remove', todo);
+    },
+    doneEdit: function(todo){
+      this.$emit('todo-edit-done', todo);
+    },
+    cancelEdit: function(todo){
+      this.$emit('todo-edit-cancel', todo);
     }
   }
-})
+});
+/* components */
 
 // app Vue instance
 var app = new Vue({
@@ -101,7 +166,6 @@ var app = new Vue({
       deep: true
     }
   },
-
   // computed properties
   // http://vuejs.org/guide/computed.html
   computed: {
@@ -173,17 +237,6 @@ var app = new Vue({
 
     removeCompleted: function () {
       this.todos = filters.active(this.todos)
-    }
-  },
-
-  // a custom directive to wait for the DOM to be updated
-  // before focusing on the input field.
-  // http://vuejs.org/guide/custom-directive.html
-  directives: {
-    'todo-focus': function (el, binding) {
-      if (binding.value) {
-        el.focus()
-      }
     }
   }
 })
