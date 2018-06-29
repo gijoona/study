@@ -49,7 +49,7 @@ var server = http.createServer((req, res) => {
 * @param params   입력 파라미터
 */
 function onRequest(res, method, pathname, params) {
-  res.end("response!");
+  // res.end("response!");
   switch(pathname){
     case "/members":
       members.onRequest(res, method, pathname, params, response);

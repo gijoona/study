@@ -55,3 +55,39 @@ function register(method, pathname, params, cb){
     });
   }
 }
+
+function inquiry(method, pathname, params, cb){
+  var response = {
+    errorcode: 0,
+    errormessage: "success"
+  };
+
+  db.class.get("GOODS").then(function(Goods){
+    Goods.list().then(function(goodsList){
+      if(goodsList.length == 0){
+        response.errorcode = 1;
+        response.errormessage = "no Data";
+      } else {
+        response.results = goodsList;
+      }
+      cb(response);
+    });
+  });
+}
+
+function unregister(method, pathname, params, cb){
+  var response = {
+    errorcode: 0,
+    errormessage: "success"
+  };
+
+  if(params["@rid"] == undefined){
+    response.errorcode = 1;
+    response.errormessage = "Invalid Parameters";
+    cb(response);
+  } else {
+    db.class.get("GODDS").then(function(Goods){
+      Goods.delete(params['@rid']);
+    });
+  }
+}
