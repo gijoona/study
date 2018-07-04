@@ -48,7 +48,34 @@
       new Vue({
         el: '#editor',
         data: {
-          input: '# hello'
+          input: `
+확인필요
+=======
+* 정보조회서비스
+ - 선박작업조회 > 본선결과작업등록
+   + 운임부분 데이터마이그레이션 확인(박지철과장님)
+   + 벌크관련 데이터임. 기존 DB 바라보도록 유지
+   + 문제점
+     = 선박정보와 관련된 사항과 join되는 부분 체크필요
+ - 게이트정보 > DOOR ORDER 관리 New
+   + Booking 정보생성 관련 로직 확인
+
+
+1. ship view
+2. Mask tool
+
+# Ship Plan
+* 선박에 컨테이너를 어떻게 실을지 계획하는 것
+  - 컨테이너의 종류와 크기, 무게
+    + 종류
+      1. DC
+      2. FR
+      3. HG
+      4. OT
+      5. PF
+  - 컨테이너가 배에서 꺼내는 순서 등을 고려
+  - Mask란 그런 Ship Plan을 지정하는 것임.
+          `
         },
         computed: {
           compiledMarkdown: function(){
