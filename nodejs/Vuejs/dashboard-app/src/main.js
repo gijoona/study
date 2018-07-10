@@ -6,10 +6,13 @@ import router from './router'
 
 // fortawesome setting
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCoffee } from '@fortawesome/free-solid-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faCoffee)
+// fas의 faCoffee 아이콘만 add
+// library.add(faCoffee)
+// fas에 속한 모든 아이콘 add
+library.add(fas)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
