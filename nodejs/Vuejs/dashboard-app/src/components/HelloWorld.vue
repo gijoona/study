@@ -7,79 +7,13 @@
   <div class="content-wrapper">
     <div class="container-fluid">
       <!-- Breadcrumbs-->
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="#">Dashboard</a>
-        </li>
-        <li class="breadcrumb-item active">My Dashboard</li>
-      </ol>
+      <breadcrumb></breadcrumb>
+      <!-- END Breadcrumbs-->
       <!-- Icon Cards-->
       <div class="row">
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-primary o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <font-awesome-icon icon="comments"/>
-              </div>
-              <div class="mr-5">26 New Messages!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">View Details</span>
-                        <span class="float-right">
-                          <font-awesome-icon icon="angle-right"/>
-                        </span>
-                      </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-warning o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <font-awesome-icon icon="list"/>
-              </div>
-              <div class="mr-5">11 New Tasks!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">View Details</span>
-                        <span class="float-right">
-                          <font-awesome-icon icon="angle-right"/>
-                        </span>
-                      </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-success o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <font-awesome-icon icon="shopping-cart"/>
-              </div>
-              <div class="mr-5">123 New Orders!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">View Details</span>
-                        <span class="float-right">
-                          <font-awesome-icon icon="angle-right"/>
-                        </span>
-                      </a>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-3">
-          <div class="card text-white bg-danger o-hidden h-100">
-            <div class="card-body">
-              <div class="card-body-icon">
-                <!-- <font-awesome-icon icon="support"/> -->
-              </div>
-              <div class="mr-5">13 New Tickets!</div>
-            </div>
-            <a class="card-footer text-white clearfix small z-1" href="#">
-                        <span class="float-left">View Details</span>
-                        <span class="float-right">
-                          <font-awesome-icon icon="angle-right"/>
-                        </span>
-                      </a>
-          </div>
-        </div>
+        <icon-card v-for="iconCard of iconCards" :iconCard="iconCard" :key="iconCard.id"></icon-card>
       </div>
+      <!-- END Icon Cards -->
       <!-- Area Chart Example-->
       <div class="card mb-3">
         <div class="card-header">
@@ -887,16 +821,38 @@
 
 <script>
 import Navigation from '@/components/Navigation'
+import Breadcrumb from '@/components/Breadcrumb'
+import IconCard from '@/components/IconCard'
 
 export default {
   name: 'HelloWorld',
   data: function () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      iconCards: [ {
+          id: 'messages',
+          title: '26 New Messages!',
+          type: 'primary'
+        }, {
+          id: 'tasks',
+          title: '11 New Tasks!',
+          type: 'warning'
+        }, {
+          id: 'orders',
+          title: '123 New Orders!',
+          type: 'success'
+        }, {
+          id: 'tickets',
+          title: '13 New Tickets!',
+          type: 'danger'
+        }
+      ]
     }
   },
   components: {
-    Navigation
+    Navigation,
+    Breadcrumb,
+    IconCard
   }
 }
 </script>

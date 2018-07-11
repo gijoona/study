@@ -205,7 +205,7 @@
 
 <script>
   export default {
-    name: '#mainNav',
+    name: 'Navigation',
     data: function () {
       return {
         msg: 'navigation'
