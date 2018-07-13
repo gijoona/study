@@ -832,19 +832,23 @@ export default {
       iconCards: [ {
           id: 'messages',
           title: '26 New Messages!',
-          type: 'primary'
+          type: 'primary',
+          icon: 'comments'
         }, {
           id: 'tasks',
           title: '11 New Tasks!',
-          type: 'warning'
+          type: 'warning',
+          icon: 'list'
         }, {
           id: 'orders',
           title: '123 New Orders!',
-          type: 'success'
+          type: 'success',
+          icon: 'shopping-cart'
         }, {
           id: 'tickets',
           title: '13 New Tickets!',
-          type: 'danger'
+          type: 'danger',
+          icon: 'life-ring'
         }
       ]
     }

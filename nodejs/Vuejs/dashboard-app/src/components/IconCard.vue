@@ -3,7 +3,7 @@
     <div :class="[cardClass, bgClass]">
       <div class="card-body">
         <div class="card-body-icon">
-          <font-awesome-icon icon="comments" />
+          <font-awesome-icon v-if="iconCard.icon" :icon="iconCard.icon" />
         </div>
         <div class="mr-5">{{ iconCard.title }}</div>
       </div>
