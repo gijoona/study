@@ -1,10 +1,5 @@
 <template>
-
-<div>
-  <!-- Navigation-->
-  <navigation></navigation>
-  <!-- END navigation -->
-  <div class="content-wrapper">
+  <base-template>
     <div class="container-fluid">
       <!-- Breadcrumbs-->
       <breadcrumb></breadcrumb>
@@ -17,7 +12,7 @@
       <!-- Area Chart Example-->
       <div class="card mb-3">
         <div class="card-header">
-          <font-awesome-icon icon="chart-area"/> Area Chart Example</div>
+          <font-awesome-icon icon="chart-area" /> Area Chart Example</div>
         <div class="card-body">
           <canvas id="myAreaChart" width="100%" height="30"></canvas>
         </div>
@@ -28,7 +23,7 @@
           <!-- Example Bar Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <font-awesome-icon icon="chart-bar"/> Bar Chart Example</div>
+              <font-awesome-icon icon="chart-bar" /> Bar Chart Example</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-8 my-auto">
@@ -50,14 +45,14 @@
           </div>
           <!-- Card Columns Example Social Feed-->
           <div class="mb-0 mt-4">
-            <font-awesome-icon icon="newspaper"/> News Feed</div>
+            <font-awesome-icon icon="newspaper" /> News Feed</div>
           <hr class="mt-2">
           <div class="card-columns">
             <!-- Example Social Card-->
             <div class="card mb-3">
               <a href="#">
-                                <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=610" alt="">
-                              </a>
+                                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=610" alt="">
+                                </a>
               <div class="card-body">
                 <h6 class="card-title mb-1"><a href="#">David Miller</a></h6>
                 <p class="card-text small">These waves are looking pretty good today!
@@ -66,9 +61,12 @@
               </div>
               <hr class="my-0">
               <div class="card-body py-2 small">
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="thumbs-up"/> Like</a>
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="comment"/> Comment</a>
-                <a class="d-inline-block" href="#"> <font-awesome-icon icon="share"/> Share</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="thumbs-up" /> Like</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="comment" /> Comment</a>
+                <a class="d-inline-block" href="#">
+                  <font-awesome-icon icon="share" /> Share</a>
               </div>
               <hr class="my-0">
               <div class="card-body small bg-faded">
@@ -87,8 +85,8 @@
                     </ul>
                     <div class="media mt-3">
                       <a class="d-flex pr-3" href="#">
-                                              <img src="http://placehold.it/45x45" alt="">
-                                            </a>
+                                                <img src="http://placehold.it/45x45" alt="">
+                                              </a>
                       <div class="media-body">
                         <h6 class="mt-0 mb-1"><a href="#">David Miller</a></h6>Next time for sure!
                         <ul class="list-inline mb-0">
@@ -110,8 +108,8 @@
             <!-- Example Social Card-->
             <div class="card mb-3">
               <a href="#">
-                                      <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=180" alt="">
-                                    </a>
+                                        <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=180" alt="">
+                                      </a>
               <div class="card-body">
                 <h6 class="card-title mb-1"><a href="#">John Smith</a></h6>
                 <p class="card-text small">Another day at the office...
@@ -120,9 +118,12 @@
               </div>
               <hr class="my-0">
               <div class="card-body py-2 small">
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="thumbs-up"/>Like</a>
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="comment"/>Comment</a>
-                <a class="d-inline-block" href="#"> <font-awesome-icon icon="share"/>Share</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="thumbs-up" />Like</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="comment" />Comment</a>
+                <a class="d-inline-block" href="#">
+                  <font-awesome-icon icon="share" />Share</a>
               </div>
               <hr class="my-0">
               <div class="card-body small bg-faded">
@@ -147,8 +148,8 @@
             <!-- Example Social Card-->
             <div class="card mb-3">
               <a href="#">
-                                            <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=281" alt="">
-                                          </a>
+                                              <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=281" alt="">
+                                            </a>
               <div class="card-body">
                 <h6 class="card-title mb-1"><a href="#">Jeffery Wellings</a></h6>
                 <p class="card-text small">Nice shot from the skate park!
@@ -159,17 +160,20 @@
               </div>
               <hr class="my-0">
               <div class="card-body py-2 small">
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="thumbs-up"/> Like</a>
-                <a class="mr-3 d-inline-block" href="#"> <font-awesome-icon icon="comment"/> Comment</a>
-                <a class="d-inline-block" href="#"> <font-awesome-icon icon="share"/> Share</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="thumbs-up" /> Like</a>
+                <a class="mr-3 d-inline-block" href="#">
+                  <font-awesome-icon icon="comment" /> Comment</a>
+                <a class="d-inline-block" href="#">
+                  <font-awesome-icon icon="share" /> Share</a>
               </div>
               <div class="card-footer small text-muted">Posted 1 hr ago</div>
             </div>
             <!-- Example Social Card-->
             <div class="card mb-3">
               <a href="#">
-                                                  <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=185" alt="">
-                                                </a>
+                                                    <img class="card-img-top img-fluid w-100" src="https://unsplash.it/700/450?image=185" alt="">
+                                                  </a>
               <div class="card-body">
                 <h6 class="card-title mb-1"><a href="#">David Miller</a></h6>
                 <p class="card-text small">It's hot, and I might be lost...
@@ -184,11 +188,11 @@
               <hr class="my-0">
               <div class="card-body py-2 small">
                 <a class="mr-3 d-inline-block" href="#">
-                                                    <font-awesome-icon icon="thumbs-up"/>Like</a>
+                  <font-awesome-icon icon="thumbs-up" />Like</a>
                 <a class="mr-3 d-inline-block" href="#">
-                                                      <font-awesome-icon icon="comment"/>Comment</a>
+                  <font-awesome-icon icon="comment" />Comment</a>
                 <a class="d-inline-block" href="#">
-                                                        <font-awesome-icon icon="share"/>Share</a>
+                  <font-awesome-icon icon="share" />Share</a>
               </div>
               <hr class="my-0">
               <div class="card-body small bg-faded">
@@ -207,8 +211,8 @@
                     </ul>
                     <div class="media mt-3">
                       <a class="d-flex pr-3" href="#">
-                                                                <img src="http://placehold.it/45x45" alt="">
-                                                              </a>
+                                                                  <img src="http://placehold.it/45x45" alt="">
+                                                                </a>
                       <div class="media-body">
                         <h6 class="mt-0 mb-1"><a href="#">David Miller</a></h6>
                         <img class="img-fluid w-100 mb-1" src="https://unsplash.it/700/450?image=789" alt="">I'm saved, I found a cactus. How do I open this thing?
@@ -235,7 +239,7 @@
           <!-- Example Pie Chart Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <font-awesome-icon icon="chart-pie"/> Pie Chart Example</div>
+              <font-awesome-icon icon="chart-pie" /> Pie Chart Example</div>
             <div class="card-body">
               <canvas id="myPieChart" width="100%" height="100"></canvas>
             </div>
@@ -244,7 +248,7 @@
           <!-- Example Notifications Card-->
           <div class="card mb-3">
             <div class="card-header">
-              <font-awesome-icon icon="bell"/> Feed Example</div>
+              <font-awesome-icon icon="bell" /> Feed Example</div>
             <div class="list-group list-group-flush small">
               <a class="list-group-item list-group-item-action" href="#">
                 <div class="media">
@@ -279,7 +283,7 @@
                 <div class="media">
                   <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/45x45" alt="">
                   <div class="media-body">
-                    <font-awesome-icon icon="code-branch"/>
+                    <font-awesome-icon icon="code-branch" />
                     <strong>Monica Dennis</strong>forked the
                     <strong>startbootstrap-sb-admin</strong>repository on
                     <strong>GitHub</strong>.
@@ -296,7 +300,7 @@
       <!-- Example DataTables Card-->
       <div class="card mb-3">
         <div class="card-header">
-          <font-awesome-icon icon="table"/> Data Table Example</div>
+          <font-awesome-icon icon="table" /> Data Table Example</div>
         <div class="card-body">
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -795,8 +799,8 @@
     </footer>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
-                                                    <font-awesome-icon icon="angle-up"/>
-                                                  </a>
+      <font-awesome-icon icon="angle-up" />
+    </a>
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -804,8 +808,8 @@
           <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span>
-                                                          </button>
+                                                              <span aria-hidden="true">×</span>
+                                                            </button>
           </div>
           <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
           <div class="modal-footer">
@@ -815,70 +819,51 @@
         </div>
       </div>
     </div>
-  </div>
-</div>
+  </base-template>
 </template>
 
 <script>
-import Navigation from '@/components/Navigation'
-import Breadcrumb from '@/components/Breadcrumb'
+import BaseTemplate from '@/components/BaseTemplate'
+import Breadcrumb from '@/components/include/Breadcrumb'
 import IconCard from '@/components/IconCard'
 
 export default {
-  name: 'HelloWorld',
-  data: function () {
+  name: 'Dashboard',
+  data: function() {
     return {
       msg: 'Welcome to Your Vue.js App',
-      iconCards: [ {
-          id: 'messages',
-          title: '26 New Messages!',
-          type: 'primary',
-          icon: 'comments'
-        }, {
-          id: 'tasks',
-          title: '11 New Tasks!',
-          type: 'warning',
-          icon: 'list'
-        }, {
-          id: 'orders',
-          title: '123 New Orders!',
-          type: 'success',
-          icon: 'shopping-cart'
-        }, {
-          id: 'tickets',
-          title: '13 New Tickets!',
-          type: 'danger',
-          icon: 'life-ring'
-        }
-      ]
+      iconCards: [{
+        id: 'messages',
+        title: '26 New Messages!',
+        type: 'primary',
+        icon: 'comments'
+      }, {
+        id: 'tasks',
+        title: '11 New Tasks!',
+        type: 'warning',
+        icon: 'list'
+      }, {
+        id: 'orders',
+        title: '123 New Orders!',
+        type: 'success',
+        icon: 'shopping-cart'
+      }, {
+        id: 'tickets',
+        title: '13 New Tickets!',
+        type: 'danger',
+        icon: 'life-ring'
+      }]
     }
   },
   components: {
-    Navigation,
     Breadcrumb,
-    IconCard
+    IconCard,
+    BaseTemplate
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* h1,
-h2 {
-  font-weight: normal;
-}
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
-} */
 </style>

@@ -17,17 +17,25 @@ app.get('/', (req, res) => {
 });
 
 app.get('/menu', (req, res) => {
-  db.select().from('PROGRAM_MENU').all().then(function(menuList){
-    res.send();
+  // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리
+  db.query('select from PROGRAM_MENU').then(function(results){
+    var menuList = [];
+    for(var idx in results){
+      console.log(results[idx].level);
+      if(results[idx].level == 1){
+        menuList.push(results[idx]);
+      }
+    }
+    res.send(menuList);
   });
 
   // var data = {
   //             menus: [
-  //               {id: '0', aClass: 'nav-link', title:'Dashboard', link:'index.html', icon:'table', text:'Dashboard'},
-  //               {id: '1', aClass: 'nav-link', title:'Charts', link:'charts.html', icon:'chart-area', text:'Charts'},
-  //               {id: '2', aClass: 'nav-link', title:'Tables', link:'tables.html', icon:'table', text:'Tables'},
+  //               {id: '0', title:'Dashboard', link:'index.html', icon:'table', text:'Dashboard'},
+  //               {id: '1', title:'Charts', link:'charts.html', icon:'chart-area', text:'Charts'},
+  //               {id: '2', title:'Tables', link:'tables.html', icon:'table', text:'Tables'},
   //               {
-  //                 id: '3', aClass: 'nav-link nav-link-collapse collapsed', aToggle: 'collapse', title:'Components', link:'#collapseComponents', icon:'wrench', text:'Components', toggle: 'tooltip', isChild: true, childId:'collapseComponents', childUlClass: 'sidenav-second-level collapse',
+  //                 id: '3', title:'Components', link:'#collapseComponents', icon:'wrench', text:'Components', isChild: true, childId:'collapseComponents', childUlClass: 'sidenav-second-level collapse',
   //                 child: [
   //                   {id: '3-1', link: 'navbar.html', text: 'Navbar'},
   //                   {id: '3-2', link: 'cards.html', text: 'Cards'}

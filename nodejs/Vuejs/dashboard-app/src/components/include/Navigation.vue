@@ -123,13 +123,21 @@ var LeftMenuItem = Vue.component('leftMenu', {
   props: ['menuItem'],
   template: `
   <li class="nav-item" data-toggle="tooltip" data-placement="right" :title="menuItem.title">
-    <a :class="menuItem.aClass" :href="menuItem.link" :data-toggle="menuItem.aToggle" data-parent="#exampleAccordion">
-      <font-awesome-icon v-if="menuItem.icon" :icon="menuItem.icon" />
-      <span class="nav-link-text">{{ menuItem.text }}</span>
-    </a>
-    <ul v-if="menuItem.isChild" :class="menuItem.childUlClass" :id="menuItem.childId">
-      <left-menu v-for="childMenu of menuItem.child" :key="childMenu.id" :menu-item="childMenu"></left-menu>
-    </ul>
+    <template v-if="menuItem.isChild">
+      <a class="nav-link nav-link-collapse collapsed" :href="menuItem.link" data-toggle="collapse" data-parent="#exampleAccordion">
+        <font-awesome-icon v-if="menuItem.icon" :icon="menuItem.icon" />
+        <span class="nav-link-text">{{ menuItem.text }}</span>
+      </a>
+      <ul :class="menuItem.childUlClass" :id="menuItem.childId">
+        <left-menu v-for="childMenu of menuItem.child" :key="childMenu.id" :menu-item="childMenu"></left-menu>
+      </ul>
+    </template>
+    <template v-else>
+      <a class="nav-link" :href="menuItem.link" data-toggle="tooltip" data-parent="#exampleAccordion">
+        <font-awesome-icon v-if="menuItem.icon" :icon="menuItem.icon" />
+        <span class="nav-link-text">{{ menuItem.text }}</span>
+      </a>
+    </template>
   </li>
   `
 })
@@ -150,7 +158,6 @@ export default {
   methods: {
     getMenu: function () {
       return this.$http.get('/api/menu').then((response) => {
-        console.log(response.data);
         this.menus = response.data;
       })
     }
