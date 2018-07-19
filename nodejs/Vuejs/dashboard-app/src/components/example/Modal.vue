@@ -1,12 +1,16 @@
 <template>
   <div>
-    Modal Example
+    {{ msg }}
   </div>
 </template>
 
 <script>
-
   export default {
-    name: 'Modal'
+    name: 'Modal',
+    data: function(){
+      return {
+        msg: 'Example Modal View'
+      }
+    }
   }
 </script>

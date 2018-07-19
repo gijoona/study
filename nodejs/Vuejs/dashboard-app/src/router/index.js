@@ -8,6 +8,7 @@ import Modal from '@/components/example/Modal'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
