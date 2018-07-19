@@ -21,7 +21,6 @@ app.get('/menu', (req, res) => {
   db.query('select from PROGRAM_MENU').then(function(results){
     var menuList = [];
     for(var idx in results){
-      console.log(results[idx].level);
       if(results[idx].level == 1){
         menuList.push(results[idx]);
       }
