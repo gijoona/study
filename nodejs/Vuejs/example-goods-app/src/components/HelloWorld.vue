@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-for="num of goodsNum" :key="num">
-      <goods-item :goods-num="num" @sum="sumTotalCnt"></goods-item>
+    <div v-for="(val, idx) of goodsCntArr" :key="idx">
+      <goods-item :goods-num="idx" @sum="sumTotalCnt"></goods-item>
     </div>
     <br />
     <div>
@@ -14,9 +14,9 @@
 let goodsItem = {
   template: `
   <div>
-    <input type="number" :id="'goods_' + goodsNum" :value="goodsCnt">
-    <label :for="'goods_' + goodsNum">goods_1
-      <span v-if="goodsCnt === 0">Solt Out</span>
+    <input type="number" :id="'goods_' + goodsNum" v-model="cnt" @change="changeCount">
+    <label :for="'goods_' + goodsNum">goods_{{goodsNum}}
+      <span v-if="cnt === 0">Solt Out</span>
     </label>
     <button type="button" name="button" @click="addCount">Add</button>
   </div>
@@ -24,13 +24,23 @@ let goodsItem = {
   props: ['goodsNum'],
   data: function () {
     return {
-      goodsCnt: 0
+      cnt: 0,
+      num: this.goodsNum
     }
   },
   methods: {
     addCount: function () {
-      this.goodsCnt = this.goodsCnt + 1
-      this.$emit('sum', this.goodsCnt)
+      this.cnt += 1
+      this.emitClickEvent()
+    },
+    changeCount: function () {
+      if (this.cnt === '') {
+        this.cnt = 0
+      }
+      this.emitClickEvent()
+    },
+    emitClickEvent: function () {
+      this.$emit('sum', this.$data)
     }
   }
 }
@@ -41,15 +51,16 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       totalCnt: 0,
-      goodsNum: 4
+      goodsCntArr: [0, 0, 0, 0]
     }
   },
   components: {
     'goods-item': goodsItem
   },
   methods: {
-    sumTotalCnt: function (goodsCnt) {
-      this.totalCnt = this.totalCnt + goodsCnt
+    sumTotalCnt: function (goods) {
+      this.goodsCntArr[goods.num] = goods.cnt
+      this.totalCnt = this.goodsCntArr.reduce((prev, curr) => parseInt(prev) + parseInt(curr))
     }
   }
 }
