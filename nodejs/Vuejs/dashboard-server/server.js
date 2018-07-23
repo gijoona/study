@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   res.send('success');
 });
 
-app.get('/menu', (req, res) => {
+app.get('/menulist', (req, res) => {
   // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리
   db.query('select from PROGRAM_MENU').then(function(results){
     var menuList = [];

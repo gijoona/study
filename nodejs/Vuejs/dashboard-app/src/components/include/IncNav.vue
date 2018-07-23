@@ -5,6 +5,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
   <div class="collapse navbar-collapse" id="navbarResponsive">
+
     <!-- Left-Menu -->
     <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
       <left-menu v-for="menuItem of menus" :key="menuItem['@rid']" :menu-item="menuItem"></left-menu>
@@ -17,6 +18,7 @@
       </li>
     </ul>
     <!-- END Left-Menu -->
+
     <ul class="navbar-nav ml-auto">
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle mr-lg-2" id="messagesDropdown" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -143,7 +145,7 @@ var LeftMenuItem = Vue.component('leftMenu', {
 })
 
 export default {
-  name: 'Navigation',
+  name: 'IncNav',
   created: function () {
     this.getMenu()
   },
@@ -157,7 +159,7 @@ export default {
   },
   methods: {
     getMenu: function () {
-      return this.$http.get('/api/menu').then((response) => {
+      return this.$http.get('/api/cmm/menulist').then((response) => {
         this.menus = response.data;
       })
     }

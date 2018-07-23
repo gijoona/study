@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
+import MngTemplate from '@/components/mng/MngTemplate'
+import MenuManager from '@/components/mng/MenuManager'
 import ExampleTemplate from '@/components/example/ExampleTemplate'
 import ExampleHome from '@/components/example/ExampleHome'
 import Modal from '@/components/example/Modal'
@@ -16,8 +18,19 @@ export default new Router({
       component: Dashboard
     },
     {
+      path: '/mng',
+      name: 'Management',
+      component: MngTemplate,
+      children: [
+        {
+          path: 'menu',
+          name: 'MenuManager',
+          component: MenuManager
+        }
+      ]
+    },
+    {
       path: '/example',
-      name: 'ExampleTemplate',
       component: ExampleTemplate,
       children: [
         {

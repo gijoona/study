@@ -4,10 +4,11 @@
   </base-template>
 </template>
 
-<script type="text/javascript">
-import BaseTemplate from '@/components/BaseTemplate'
+<script>
+  import BaseTemplate from '@/components/BaseTemplate'
+
   export default {
-    name: 'ExampleTemplate',
+    name: 'MngTemplate',
     components: {
       BaseTemplate
     }

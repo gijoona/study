@@ -10,9 +10,19 @@
 <script>
   export default {
     name: 'Breadcrumb',
+    created: function () {
+      this.getBreadCrumb()
+    },
     data: function () {
       return {
         msg: ''
+      }
+    },
+    methods: {
+      getBreadCrumb: function () {
+        return this.$http.get('/api/cmm/menulist').then((response) => {
+          console.log(response);
+        });
       }
     }
   }

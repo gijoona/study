@@ -11,11 +11,18 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/api': {
+      '/api/cmm': {
         target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/api/cmm': ''
+        }
+      },
+      '/api/HITOPS': {
+        target: 'http://52.78.64.204:8080/BK/HmmServlet',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api/HITOPS': ''
         }
       }
     },
