@@ -8,7 +8,7 @@ const dbServ = OrientDB({
   host: 'localhost',
   port: 2424,
   username: 'root',
-  password: '1213'
+  password: '1359'
 });
 var db = dbServ.use('HITOPS');
 
@@ -17,12 +17,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/menulist', (req, res) => {
-  // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리
-  db.query('traverse out(child) from (select *, out(child).include('*') as child from FRM_MENU where level = 1) maxdepth 0').then(function(results){
+  // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리, Unhandled rejection TypeError: Converting circular structure to JSON 오류 수정필요
+  db.query('select from (select *, out(child) as child from FRM_MENU where level = 1) FETCHPLAN *:1').then(function(results){
     // var menuList = [];
-    for(var idx in results){
-      console.log(results[idx]);
-    }
+    console.log(JSON.stringify(results));
     res.send(results);
   });
 
