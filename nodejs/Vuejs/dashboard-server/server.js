@@ -18,14 +18,16 @@ app.get('/', (req, res) => {
 
 app.get('/menulist', (req, res) => {
   // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리
-  db.query('select from PROGRAM_MENU').then(function(results){
-    var menuList = [];
+  db.query('traverse out(child) from (select *, out(child).include('*') as child from FRM_MENU where level = 1) maxdepth 0').then(function(results){
+    // var menuList = [];
     for(var idx in results){
-      if(results[idx].level == 1){
-        menuList.push(results[idx]);
-      }
+      console.log(results[idx]);
     }
-    res.send(menuList);
+    res.send(results);
+  });
+
+  app.get('/breadcrumb/:id', (req, res) => {
+    console.log(req.params.id);
   });
 
   // var data = {

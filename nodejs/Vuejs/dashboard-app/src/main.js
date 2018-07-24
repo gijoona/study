@@ -30,6 +30,9 @@ require('jquery.easing')
 // jquery.datatables setting
 require('datatables')
 
+// EventBus 비 부모-자식 컴포넌트 간 이벤트처리
+Vue.prototype.$EventBus = new Vue()
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

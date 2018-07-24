@@ -10,20 +10,21 @@
 <script>
   export default {
     name: 'Breadcrumb',
-    created: function () {
-      this.getBreadCrumb()
-    },
     data: function () {
       return {
-        msg: ''
+        breadcrumbMsg: 'test'
       }
     },
     methods: {
-      getBreadCrumb: function () {
-        return this.$http.get('/api/cmm/menulist').then((response) => {
-          console.log(response);
-        });
+      getBreadcrumb: function (menuItem) {
+        let encodingMenuId = encodeURIComponent(menuItem['@rid'])
+        return this.$http.get('/api/cmm/breadcrumb/' + encodingMenuId).then(function (result) {
+          console.log(result)
+        })
       }
+    },
+    created: function () {
+      this.$EventBus.$on('menu-selected', (menuItem) => this.getBreadcrumb(menuItem))
     }
   }
 </script>
