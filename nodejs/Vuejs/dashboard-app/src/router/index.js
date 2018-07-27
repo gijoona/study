@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Dashboard from '@/components/Dashboard'
-import MngTemplate from '@/components/mng/MngTemplate'
-import MenuManager from '@/components/mng/MenuManager'
+
 import ExampleTemplate from '@/components/example/ExampleTemplate'
 import ExampleHome from '@/components/example/ExampleHome'
 import Modal from '@/components/example/Modal'
+
+import DynamicTemplate from '@/components/dynamic/DynamicTemplate'
 
 Vue.use(Router)
 
@@ -14,20 +14,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Dashboard',
-      component: Dashboard
-    },
-    {
-      path: '/mng',
-      name: 'Management',
-      component: MngTemplate,
-      children: [
-        {
-          path: 'menu',
-          name: 'MenuManager',
-          component: MenuManager
-        }
-      ]
+      name: 'DynamicTemplate',
+      component: DynamicTemplate
     },
     {
       path: '/example',
@@ -44,6 +32,11 @@ export default new Router({
           component: Modal
         }
       ]
+    },
+    {
+      path: '/dynamic',
+      name: 'DynamicTemplate',
+      component: DynamicTemplate
     }
   ]
 })

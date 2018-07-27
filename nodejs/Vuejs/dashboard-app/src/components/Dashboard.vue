@@ -1,5 +1,5 @@
 <template>
-  <base-template>
+  <div>
     <!-- Icon Cards-->
     <div class="row">
       <icon-card v-for="iconCard of iconCards" :iconCard="iconCard" :key="iconCard.id"></icon-card>
@@ -785,11 +785,10 @@
     </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
-  </base-template>
+  </div>
 </template>
 
 <script>
-import BaseTemplate from '@/components/BaseTemplate'
 import IconCard from '@/components/IconCard'
 
 export default {
@@ -821,8 +820,7 @@ export default {
     }
   },
   components: {
-    IconCard,
-    BaseTemplate
+    IconCard
   }
 }
 </script>

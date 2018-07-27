@@ -1,13 +1,16 @@
 <template>
   <ol class="breadcrumb">
-    <li class="breadcrumb-item">
-      <a href="#">Dashboard</a>
+    <li class="breadcrumb-item" v-for="(val, idx) in breadcrumbs" :key="idx">
+      <b v-if="idx == breadcrumbs.length - 1">{{ val }}</b>
+      <a v-else href="#">{{ val }}</a>
     </li>
-    <li class="breadcrumb-item active">My Dashboard</li>
+    <!-- <li class="breadcrumb-item active">My Dashboard</li> -->
   </ol>
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'Breadcrumb',
     data: function () {
@@ -16,15 +19,14 @@
       }
     },
     methods: {
-      getBreadcrumb: function (menuItem) {
-        let encodingMenuId = encodeURIComponent(menuItem['@rid'])
-        return this.$http.get('/api/cmm/breadcrumb/' + encodingMenuId).then(function (result) {
-          console.log(result)
-        })
-      }
+      ...mapGetters([
+        'getBreadcrumbs'
+      ])
     },
-    created: function () {
-      this.$EventBus.$on('menu-selected', (menuItem) => this.getBreadcrumb(menuItem))
+    computed: {
+      breadcrumbs: function () {
+        return this.getBreadcrumbs()
+      }
     }
   }
 </script>

@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import axios from 'axios'
 import router from './router'
+import store from './store/index'
 
 // fortawesome setting
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -39,6 +40,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

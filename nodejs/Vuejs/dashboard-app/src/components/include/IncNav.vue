@@ -8,7 +8,7 @@
 
       <!-- Left-Menu -->
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
-        <left-menu v-for="menuItem of menus" :key="menuItem['@rid']" :menu-item="menuItem"></left-menu>
+        <left-menu v-for="menuItem of menuList" :key="menuItem['@rid']" :menu-item="menuItem"></left-menu>
       </ul>
       <ul class="navbar-nav sidenav-toggler">
         <li class="nav-item">
@@ -145,7 +145,14 @@ var LeftMenuItem = Vue.component('leftMenu', {
   `,
   methods: {
     menuClickHandler: function (menuItem) {
-      this.$EventBus.$emit('menu-selected', menuItem)
+      if(menuItem.isRoute){
+        window.location = menuItem.link
+      } else {
+        this.$store.commit('setViewName', menuItem.viewName)
+      }
+      this.$store.commit('setBreadcrumbs', menuItem.breadcrumb)
+      // this.$EventBus.$emit('menu-selected', menuItem.breadcrumb)
+
     }
   }
 })
@@ -154,7 +161,7 @@ var LeftMenuItem = Vue.component('leftMenu', {
 export default {
   name: 'IncNav',
   created: function () {
-    this.getMenu()
+    this.getMenuList()
   },
   data: function() {
     return {
@@ -165,10 +172,29 @@ export default {
     LeftMenuItem
   },
   methods: {
-    getMenu: function () {
+    getMenuList: function () {
       return this.$http.get('/api/cmm/menulist').then((response) => {
-        this.menus = response.data;
+        this.menus = response.data
       })
+    },
+    genBreadCrumb: function (menuItem, jsonBreadCrumb) {
+      let currjsonBread = Object.assign({}, jsonBreadCrumb) || {}
+      currjsonBread[Object.keys(currjsonBread).length.toString()] = menuItem.title
+      if (menuItem.isChild) {
+        for (let childMenuItem of menuItem.child) {
+          this.genBreadCrumb(childMenuItem, currjsonBread)
+        }
+      } else {
+        menuItem["breadcrumb"] = currjsonBread
+      }
+    }
+  },
+  computed: {
+    menuList: function () {
+      for(let menuItem of this.menus) {
+        this.genBreadCrumb(menuItem)
+      }
+      return this.menus
     }
   }
 }
