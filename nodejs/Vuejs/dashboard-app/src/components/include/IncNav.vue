@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     getMenuList: function () {
-      return this.$http.get('/api/cmm/menulist').then((response) => {
+      return this.$http.get('/api/cmm/menulist/1').then((response) => {
         this.menus = response.data
       })
     },

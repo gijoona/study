@@ -16,19 +16,36 @@ const dbServ = OrientDB({
 });
 var db = dbServ.use('HITOPS');
 
+function setMenuDep (menuDep, menuList, depth) {
+  menuDep[depth] = menuDep[depth] || []
+  menuDep[depth] = [...menuDep[depth], ...menuList]
+
+  for (let menu of menuList) {
+    if (menu.isChild) {
+      setMenuDep(menuDep, menu.child, depth + 1)
+    }
+  }
+}
+
 app.get('/', (req, res) => {
   res.send('success');
 });
 
-app.get('/menulist', (req, res) => {
+app.get(['/menuList', '/menulist/:depth'], (req, res) => {
   // TODO :: Depth 1인 메뉴를 리스트 조회 및 child 메뉴 처리, Unhandled rejection TypeError: Converting circular structure to JSON 오류 수정필요
   // db.query('select from (select * from FRM_MENU where level = 1) FETCHPLAN *:1').then(function(results){
   db.query('select from `PROGRAM_MENU` where level = 0').then( (results) => {
-    res.send(results[0].child);
-  });
+    let targetDep = req.params.depth || 0
+    let menuDep = {}
 
-  app.get('/breadcrumb/:id', (req, res) => {
-    console.log(req.params.id);
+    /**
+      menuList : Database select data
+      depth : current menu depth
+    */
+    setMenuDep(menuDep, results, 0)
+
+    res.send(menuDep[targetDep])
+    // res.send(results[0].child);
   });
 
   // var data = {

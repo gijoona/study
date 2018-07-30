@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-3">
       <div class="card mb-3">
         <div class="card-header">
           tree header
@@ -16,8 +16,8 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-8">
-      <data-tables :dataList="menuList"></data-tables>
+    <div class="col-sm-9">
+      <data-tables :dataList="childList"></data-tables>
     </div>
   </div>
 </template>
@@ -31,37 +31,33 @@
       <div class="card mb-3">
         <div class="card-header">
           {{ headerText }}
+          <span class="pull-right btn-group" role="group">
+            <button type="button" class="btn btn-sm btn-default">New</button>
+            <button type="button" class="btn btn-sm btn-default">Save</button>
+            <button type="button" class="btn btn-sm btn-default">Delete</button>
+          </span>
         </div>
         <div class="table-responsive">
           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th v-for="header of headerArr">
+                  {{ header }}
+                </th>
               </tr>
             </thead>
             <tfoot>
               <tr>
-                <th>Name</th>
-                <th>Position</th>
-                <th>Office</th>
-                <th>Age</th>
-                <th>Start date</th>
-                <th>Salary</th>
+                <th v-for="header of headerArr">
+                  {{ header }}
+                </th>
               </tr>
             </tfoot>
             <tbody>
-              <tr v-for="item of dataList">
-                <td>Shad Decker</td>
-                <td>Regional Director</td>
-                <td>Edinburgh</td>
-                <td>51</td>
-                <td>2008/11/13</td>
-                <td>$183,000</td>
+              <tr v-for="(item, idx) in dataList">
+                <td v-for="header of headerArr">
+                  <input class="form-control" v-model="dataList[idx][header]" />
+                </td>
               </tr>
             </tbody>
           </table>
@@ -71,17 +67,25 @@
     props: ["dataList"],
     data: function () {
       return {
-        headerText: 'dataTables'
+        headerText: 'dataTables',
+        headerArr: []
       }
     },
     methods: {
-      headerArr: function () {
-        console.log(this.dataList)
-        this.dataList.forEach(item => console.log(item))
+      setHeaderArr: function () {
+        this.dataList.forEach(
+          item => Object.keys(item).forEach(
+            key => this.headerArr.includes(key) ? '' : this.headerArr.push(key)
+          )
+        )
       }
     },
-    created: function () {
-      this.headerArr()
+    updated: function () {
+      this.$nextTick(function () {
+        if (this.dataList !== undefined) {
+          this.setHeaderArr()
+        }
+      })
     }
   }
 
@@ -90,17 +94,20 @@
     data: function () {
       return {
         selection: [],
-        menuList: []
+        menuList: [],
+        childList: []
       }
     },
     methods: {
       getMenuList: function () {
         return this.$http.get('/api/cmm/menulist').then((response) => {
           this.menuList = response.data
+          this.childList = response.data
         })
       },
       onSelect: function (newSelection) {
         this.selection = newSelection
+        this.childList = newSelection[0].hasOwnProperty('child') ? newSelection[0].child : undefined
       },
       display: function (item) {
         return item.title
