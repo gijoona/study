@@ -6,6 +6,10 @@ import axios from 'axios'
 import router from './router'
 import store from './store/index'
 
+// 전역 컴포넌트
+import CustomInput from '@/components/cmm/forms/CustomInput'
+import Markdown from '@/components/cmm/editor/Markdown'
+
 // fortawesome setting
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { fas } from '@fortawesome/free-solid-svg-icons'
@@ -35,6 +39,10 @@ require('datatables')
 Vue.prototype.$EventBus = new Vue()
 
 Vue.config.productionTip = false
+
+// 전역 컴포넌트
+Vue.component('markdown', Markdown)
+Vue.component('custom-input', CustomInput)
 
 /* eslint-disable no-new */
 new Vue({

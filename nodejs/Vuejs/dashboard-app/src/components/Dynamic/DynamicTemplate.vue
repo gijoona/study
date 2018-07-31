@@ -7,7 +7,7 @@
 <script>
   import BaseTemplate from '@/components/BaseTemplate'
   import Dashboard from '@/components/Dashboard'
-  import MenuManager from '@/components/mng/MenuManager'
+  import MenuManager from '@/components/management/MenuManager'
   import { mapGetters } from 'vuex'
 
   export default {
