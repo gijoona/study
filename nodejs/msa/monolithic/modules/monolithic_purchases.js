@@ -54,6 +54,7 @@ exports.onRequest = function (res, method, pathname, params, cb) {
 
 function register (res, method, pathname, params, cb) {
   var response = {
+    key: params.key,
     errorcode: 0,
     errormessage: 'success'
   };
@@ -66,7 +67,7 @@ function register (res, method, pathname, params, cb) {
     var connection = mysql.createConnection(conn);
     connection.connect();
     connection.query('insert into purchases (userid, goodsid) values (?, ?)',
-      [params.userid, params.goodsid], 
+      [params.userid, params.goodsid],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
@@ -81,6 +82,7 @@ function register (res, method, pathname, params, cb) {
 
 function inquiry (res, method, pathname, params, cb) {
   var response = {
+    key: params.key,
     errorcode: 0,
     errormessage: 'success'
   };
