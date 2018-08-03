@@ -3,6 +3,7 @@ const url = require('url');
 const querystring = require('querystring');
 
 const tcpClient = require('./client.js');
+const logger = require('logat');
 
 let mapClients = {};
 let mapUrls = {};
@@ -11,6 +12,8 @@ let mapRR = {};
 let index = 0;
 
 let server = http.createServer((req, res) => {
+  logger.info('createServer');
+
   let method = req.method;
   let uri = url.parse(req.url, true);
   let pathname = uri.pathname;
@@ -35,7 +38,7 @@ let server = http.createServer((req, res) => {
     onRequest(res, method, pathname, uri.query);
   }
 }).listen(8000, () => {
-  console.log('listen', server.address());
+  logger.info('listen', server.address());
 
   // Distributor 전달 패킷
   let packet = {
@@ -78,6 +81,8 @@ let server = http.createServer((req, res) => {
 
 // 요청정보처리
 function onRequest (res, method, pathname, params) {
+  logger.info('onRequest');
+
   let key = method + pathname;
   let client = mapUrls[key];
 
@@ -113,6 +118,8 @@ function onRequest (res, method, pathname, params) {
 
 // Distributor 데이터 수신 처리
 function onDistribute (data) {
+  logger.info('onDistribute', data);
+
   for (let param of data.params) {
     let node = param;
     let key = node.host + ":" + node.port;
@@ -139,12 +146,12 @@ function onDistribute (data) {
 }
 
 function onCreateClient (options) {
-  console.log('onCreateClient');
+  logger.info('onCreateClient');
 }
 
 // 마이크로서비스 응답
 function onReadClient (options, packet) {
-  console.log('onReadClient', packet);
+  logger.info('onReadClient', packet);
   mapResponse[packet.key].writeHead(200, {'Content-Type': 'application/json' });
   mapResponse[packet.key].end(JSON.stringify(packet));
 
@@ -154,7 +161,7 @@ function onReadClient (options, packet) {
 
 function onEndClient (options) {
   let key = options.host + ":" + options.port;
-  console.log('onEndClient', mapClients[key]);
+  logger.info('onEndClient', mapClients[key]);
   for (let url of mepClients[key].info.urls) {
     let node = url;
     delete mapUrls[node];
@@ -163,5 +170,5 @@ function onEndClient (options) {
 }
 
 function onErrorClient (options) {
-  console.log('onErrorClient');
+  logger.info('onErrorClient');
 }

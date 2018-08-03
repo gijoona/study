@@ -2,6 +2,7 @@
 
 const net = require('net');
 const tcpClient = require('./client.js'); // tcpClient 클래스 참조
+const logger = require('logat');
 
 /**
   tcpServer 클래스
@@ -10,6 +11,7 @@ class tcpServer {
 
   // 생성자
   constructor (name, port, urls) {
+    this.log = logger;
 
     // 서버정보
     this.context = {
