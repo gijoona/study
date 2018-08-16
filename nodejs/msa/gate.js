@@ -162,7 +162,7 @@ function onReadClient (options, packet) {
 function onEndClient (options) {
   let key = options.host + ":" + options.port;
   logger.info('onEndClient', mapClients[key]);
-  for (let url of mepClients[key].info.urls) {
+  for (let url of mapClients[key].info.urls) {
     let node = url;
     delete mapUrls[node];
   }

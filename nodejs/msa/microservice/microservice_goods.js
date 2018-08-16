@@ -1,6 +1,8 @@
 'use strict';
 
 const business = require('../monolithic/modules/monolithic_goods.js');
+const cluster = require('cluster'); // cluster 모듈
+
 class goods extends require('../server.js') {
   constructor () {
 
@@ -24,4 +26,14 @@ class goods extends require('../server.js') {
   }
 }
 
-new goods();  // 인스턴스 생성
+if (cluster.isMaster) { // 부모 프로세스일 경우 자식 프로세스 실행
+  cluster.fork();
+
+  // exit 이벤트가 발생하면 새로운 자식 프로세스 실행
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+    cluster.fork();
+  });
+} else {
+  new goods();  // 인스턴스 생성
+}

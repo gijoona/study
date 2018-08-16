@@ -6,6 +6,12 @@ const conn = {
   database: 'monolithic'
 }
 
+const redis = require('redis').createClient();  // redis 모듈 로드
+
+redis.on('error', function (err) {  // Redis 에러 처리
+  console.log('Redis Error ' + err);
+});
+
 /**
   구매관리 REST API
   구매: {
@@ -64,9 +70,17 @@ function register (res, method, pathname, params, cb) {
     response.errormessage = 'Invalid Parameters';
     cb(response);
   } else {
-    var connection = mysql.createConnection(conn);
-    connection.connect();
-    connection.query('insert into purchases (userid, goodsid) values (?, ?)',
+    redis.get(params.goodsid, (err, result) => {  // Redis에 상품 정보 조회
+      if (err || result == null) {
+        response.errorcode = 1;
+        response.errormessage = "Redis failure";
+        cb(response);
+        return;
+      }
+      
+      var connection = mysql.createConnection(conn);
+      connection.connect();
+      connection.query('insert into purchases (userid, goodsid) values (?, ?)',
       [params.userid, params.goodsid],
       (error, results, fields) => {
         if (error) {
@@ -77,6 +91,7 @@ function register (res, method, pathname, params, cb) {
       }
     );
     connection.end();
+    });
   }
 }
 

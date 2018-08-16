@@ -3,8 +3,14 @@ const conn = {
   host: 'localhost',
   user: 'root',
   password: 'ngl1213',
-  database: 'monolithic'
+  database: 'monolithic',
+  multipleStatements: true  // 상품 등록 후 아이디를 알아오려고 설정
 }
+
+const redis = require('redis').createClient();  // redis 모듈 로드
+redis.on('error', function (err) {  // Redis 에러 처리
+  console.log('Redis Error ' + err);
+});
 
 /**
   상품관리 REST API
@@ -84,12 +90,15 @@ function register (method, pathname, params, cb) {
   } else {
     var connection = mysql.createConnection(conn);
     connection.connect();
-    connection.query('insert into goods(name, category, price, description) values (?, ?, ?, ?)',
+    connection.query('insert into goods(name, category, price, description) values (?, ?, ?, ?); select LAST_INSERT_ID() as id;',
       [params.name, params.category, params. price, params.description],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
           response.errormessage = error;
+        } else {  // Redis에 상품 정보 저장
+          const id = results[1][0].id;
+          redis.set(id, JSON.stringify(params));
         }
         cb(response);
       }
@@ -139,6 +148,8 @@ function unregister (method, pathname, params, cb) {
         if (error) {
           response.errorcode = 1;
           response.errormessage = error;
+        } else {
+          redis.del(params.id); // Redis에 상품 정보 삭제
         }
         cb(response);
       }

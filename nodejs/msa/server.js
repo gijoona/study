@@ -2,7 +2,6 @@
 
 const net = require('net');
 const tcpClient = require('./client.js'); // tcpClient 클래스 참조
-const logger = require('logat');
 
 /**
   tcpServer 클래스
@@ -11,7 +10,7 @@ class tcpServer {
 
   // 생성자
   constructor (name, port, urls) {
-    this.log = logger;
+    this.logTcpClient = null; // 로그 관리 마이크로서비스 연결 클라이언트
 
     // 서버정보
     this.context = {
@@ -47,6 +46,7 @@ class tcpServer {
           } else if (arr[n] == "") {
             break;
           } else {
+            this.writeLog(arr[n]);
             this.onRead(socket, JSON.parse(arr[n]));
           }
         }
@@ -89,7 +89,20 @@ class tcpServer {
         isConnectedDistributor = true;
         this.clientDistributor.write(packet);
       },
-       (options, data) => { onNoti(data); },  // 데이터 수신 이벤트. onRead
+       (options, data) => {
+         // 로그 관리 마이크로서비스 연결
+         if (this.logTcpClient == null && this.context.name != 'logs') {
+           for (let n in data.params) {
+             const ms = data.params[n];
+             if (ms.name == 'logs') {
+               this.connectToLog(ms.host, ms.port);
+               break;
+             }
+           }
+         }
+
+         onNoti(data);
+       },  // 데이터 수신 이벤트. onRead
        (options) => { isConnectedDistributor = false; }, // 접속 종료 이벤트. onEnd
        (options) => { isConnectedDistributor = false; }  // 에러 처리 이벤트. onError
     );
@@ -100,6 +113,31 @@ class tcpServer {
         this.clientDistributor.connect();
       }
     }, 3000);
+  }
+
+  // 로그 관리 마이크로서비스 연결
+  connectToLog (host, port) {
+    this.logTcpClient = new tcpClient(host, port
+      , (options) => {}
+      , (options) => { this.logTcpClient = null; }
+      , (options) => { this.logTcpClient = null; }
+    );
+    this.logTcpClient.connect();
+  }
+
+  // log 패킷 전달
+  writeLog (log) {
+    if (this.logTcpClient) {
+      const packet = {
+        uri: '/logs',
+        method: 'POST',
+        key: 0,
+        params: log
+      };
+      this.logTcpClient.write(packet);
+    } else {
+      console.log(log);
+    }
   }
 }
 
