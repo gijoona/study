@@ -1,0 +1,20 @@
+{
+  "name": "distributor",
+  "version": "1.0.0",
+  "description": "msa distributor microservice",
+  "main": "distributor.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "ijgong",
+  "license": "ISC",
+  "dependencies": {
+    "elasticsearch": "^15.1.1",
+    "logat": "^1.0.11",
+    "mysql": "^2.16.0",
+    "orientjs": "^2.2.10",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {}
+}
