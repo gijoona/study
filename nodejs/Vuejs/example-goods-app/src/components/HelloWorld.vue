@@ -40,7 +40,7 @@ let goodsItem = {
       this.emitClickEvent()
     },
     emitClickEvent: function () {
-      this.$emit('sum', this.$data)
+      this.$emit('sum', this.$data) // $data는 Component 자기자신의 data를 가리킨다.
     }
   }
 }
