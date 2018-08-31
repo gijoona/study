@@ -68,7 +68,7 @@ exports.onRequest = function (res, method, pathname, params, cb) {
         process.nextTick(cb, res, response);
       });
     case 'PUT':
-      reutrn modify(method, pathname, params, (response) => {
+      return modify(method, pathname, params, (response) => {
         process.nextTick(cb, res, response);
       });
     case 'DELETE':
