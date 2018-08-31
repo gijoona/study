@@ -16,7 +16,19 @@ let server = http.createServer((req, res) => {
   let uri = url.parse(req.url, true);
   let pathname = uri.pathname;
 
-  if (method == 'POST' || method == 'PUT') {  // POST, PUT 처리
+  if (method == 'OPTIONS') {  // 사전요청 처리
+    console.log('!OPTIONS');
+    var headers = {};
+    // IE8 does not allow domains to be specified, just the *
+    // headers["Access-Control-Allow-Origin"] = req.headers.origin;
+    headers["Access-Control-Allow-Origin"] = "*";
+    headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
+    headers["Access-Control-Allow-Credentials"] = false;
+    headers["Access-Control-Max-Age"] = '86400'; // 24 hours
+    headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Access-Control-Allow-Origin";
+    res.writeHead(200, headers);
+    res.end();
+  } else if (method == 'POST' || method == 'PUT') {  // POST, PUT 처리
     let body = '';
 
     req.on('data', function (data) {
@@ -84,7 +96,7 @@ function onRequest (res, method, pathname, params) {
 
   // 처리가능한 API만 처리
   if (client == null) {
-    res.writeHead(404);
+    res.writeHead(404, {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     res.end();
     return;
   } else {

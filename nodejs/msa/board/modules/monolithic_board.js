@@ -67,6 +67,10 @@ exports.onRequest = function (res, method, pathname, params, cb) {
       return inquiry(method, pathname, params, (response) => {
         process.nextTick(cb, res, response);
       });
+    case 'PUT':
+      reutrn modify(method, pathname, params, (response) => {
+        process.nextTick(cb, res, response);
+      });
     case 'DELETE':
       return unregister(method, pathname, params, (response) => {
         process.nextTick(cb, res, response);
@@ -92,7 +96,7 @@ function register (method, pathname, params, cb) {
     var connection = mysql.createConnection(conn);
     connection.connect();
     connection.query('insert into board(name, category, contents, description) values (?, ?, ?, ?); select LAST_INSERT_ID() as id;',
-      [params.name, params.category, params. contents, params.description],
+      [params.name, params.category, params.contents, params.description],
       (error, results, fields) => {
         if (error) {
           response.errorcode = 1;
@@ -100,6 +104,36 @@ function register (method, pathname, params, cb) {
         } else {  // Redis에 상품 정보 저장
           const id = results[1][0].id;
           redis.set(id, JSON.stringify(params));
+        }
+        cb(response);
+      }
+    );
+    connection.end();
+  }
+}
+
+function modify (method, pathname, params, cb) {
+  var response = {
+    key: params.key,
+    errorcode: 0,
+    errormessage: 'success'
+  };
+
+  if (params.name == null || params.category == null || params.contents == null || params.description == null) {
+    response.errorcode = 1;
+    response.errormessage = 'Invalid Parameters';
+    cb(response);
+  } else {
+    var connection = mysql.createConnection(conn);
+    connection.connect();
+    connect.query('update board set name = ?, category = ?, contents = ?, description = ? where id = ?',
+      [params.name, params.category, params.contents, params.description, params.id],
+      (error, results, fields) => {
+        if (error) {
+          response.errorcode = 1;
+          response.errormessage = error;
+        } else {
+          redis.set(params.id, JSON.stringify(params));
         }
         cb(response);
       }

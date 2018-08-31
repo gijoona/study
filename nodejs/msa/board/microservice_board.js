@@ -10,7 +10,7 @@ class board extends require('./server.js') {
     // 초기화
     super('board',
       process.argv[2] ? Number(process.argv[2]) : 9050,
-      ['POST/board', 'GET/board', 'DELETE/board']
+      ['POST/board', 'GET/board', 'PUT/board', 'DELETE/board']
     );
 
     // Distributor 접속

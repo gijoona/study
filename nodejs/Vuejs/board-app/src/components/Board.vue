@@ -7,49 +7,56 @@
       <b-row>
         <b-table striped hover
           :items="boards"
+          @row-clicked="rowClick"
           show-empty>
         </b-table>
       </b-row>
       <b-row>
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-          <b-form-group id="exampleInputGroup1"
-                        label="Email address:"
-                        label-for="exampleInput1"
-                        description="We'll never share your email with anyone else.">
-            <b-form-input id="exampleInput1"
-                          type="email"
-                          v-model="form.email"
-                          required
-                          placeholder="Enter email">
-            </b-form-input>
-          </b-form-group>
-          <b-form-group id="exampleInputGroup2"
-                        label="Your Name:"
-                        label-for="exampleInput2">
-            <b-form-input id="exampleInput2"
+          <b-form-group id="formInputGroup1"
+                        label="Name:"
+                        label-for="formInput1"
+                        description="제목.">
+            <b-form-input id="formInput1"
                           type="text"
                           v-model="form.name"
                           required
                           placeholder="Enter name">
             </b-form-input>
           </b-form-group>
-          <b-form-group id="exampleInputGroup3"
-                        label="Food:"
-                        label-for="exampleInput3">
-            <b-form-select id="exampleInput3"
-                          :options="foods"
+          <b-form-group id="formInputGroup2"
+                        label="Category:"
+                        label-for="formInput2"
+                        description="카테고리.">
+            <b-form-select id="formInput2"
+                          :options="categories"
                           required
-                          v-model="form.food">
+                          v-model="form.category">
             </b-form-select>
           </b-form-group>
-          <b-form-group id="exampleGroup4">
-            <b-form-checkbox-group v-model="form.checked" id="exampleChecks">
-              <b-form-checkbox value="me">Check me out</b-form-checkbox>
-              <b-form-checkbox value="that">Check that out</b-form-checkbox>
-            </b-form-checkbox-group>
+          <b-form-group id="formInputGroup3"
+                        label="Contents :"
+                        label-for="formInput3">
+            <b-form-textarea id="formInput3"
+                            v-model="form.contents"
+                            placeholder="Enter something"
+                            :rows="3"
+                            :max-rows="6">
+            </b-form-textarea>
           </b-form-group>
-          <b-button type="submit" variant="primary">작성</b-button>
-          <b-button type="reset" variant="danger">초기화</b-button>
+          <b-form-group id="formInputGroup4"
+                        label="Description :"
+                        label-for="formInput4">
+            <b-form-textarea id="formInput4"
+                            v-model="form.description"
+                            placeholder="Enter description"
+                            :rows="3"
+                            :max-rows="6">
+            </b-form-textarea>
+          </b-form-group>
+          <b-button type="reset" variant="default">초기화</b-button>
+          <b-button type="submit" variant="primary">저장</b-button>
+          <b-button type="button" variant="danger" @click="onDelete">삭제</b-button>
         </b-form>
       </b-row>
     </b-container>
@@ -71,14 +78,18 @@ export default {
       fields: ['name', 'category', 'contents', 'description'],
       boards: [],
       form: {
+        id: null,
         email: '',
         name: '',
-        food: null,
-        checked: []
+        category: null,
+        contents: '',
+        description: ''
       },
-      foods: [
-        { text: 'Select One', value: null },
-        'Carrots', 'Beans', 'Tomatoes', 'Corn'
+      categories: [
+        { text: '-선택-', value: null },
+        { text: '취미', value: 'HOB' },
+        { text: '개발', value: 'DEV' },
+        { text: '공부', value: 'EDU' }
       ],
       show: true
     }
@@ -86,28 +97,50 @@ export default {
   methods: {
     getList: function () {
       this.$http.get('http://35.200.103.250:8000/board').then((res) => {
-        console.log(res.data)
-        if (res.data.errorcode === 1) {
-          console.log(res.data.errormessage)
-        } else {
-          this.boards = res.data.results
-        }
+        this.boards = res.data.results
       })
+    },
+    rowClick: function (item, index, event) {
+      this.form = Object.assign({}, item)
     },
     onSubmit (evt) {
       evt.preventDefault()
-      alert(JSON.stringify(this.form))
+      let request = {
+        url: 'http://35.200.103.250:8000/board',
+        form: this.form,
+        config: { headers: { 'Content-Type': 'application/json' } }
+      }
+      if (this.form.id != null) {
+        console.log('modify')
+        this.$http.put(request.url, request.form, request.config).then((res) => {
+          console.log(res)
+          this.getList()
+        })
+      } else {
+        console.log('register')
+        this.$http.post(request.url, request.form, request.config).then((res) => {
+          this.getList()
+        })
+      }
     },
     onReset (evt) {
       evt.preventDefault()
       /* Reset our form values */
+      this.form.id = null
       this.form.email = ''
       this.form.name = ''
-      this.form.food = null
-      this.form.checked = []
+      this.form.category = null
+      this.form.contents = ''
+      this.form.description = ''
       /* Trick to reset/clear native browser form validation state */
       this.show = false
       this.$nextTick(() => { this.show = true })
+    },
+    onDelete () {
+      // evt.preventDefault()
+      this.$http.delete('http://35.200.103.250:8000/board?id=' + this.form.id).then((res) => {
+        this.getList()
+      })
     }
   }
 }
